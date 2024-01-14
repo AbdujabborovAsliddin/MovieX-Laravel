@@ -4,8 +4,11 @@
 
     <div class="movie-info border-b border-gray-800 mt-16">
         <div class="container mx-auto md:px-16 py-16 flex flex-col md:flex-row">
-            <img src="{{ 'https://image.tmdb.org/t/p/w500'.$movie['poster_path'] }}" alt="a" class="w-64 mx-auto mt-56 md:mt-0 md:w-96 flex">
-            <div class="ml-10 md:ml-20">
+            <div class="w-1/3">
+                <img src="{{ 'https://image.tmdb.org/t/p/w500'.$movie['poster_path'] }}" alt="a" class="w-64 mx-auto mt-56 md:mt-0 md:w-96 flex">
+            </div>
+            
+            <div class="ml-10 md:ml-20 w-2/3">
                 <h2 class="text-4xl font-semibold">{{ $movie['title'] }}</h2>
                     <div class="flex flex-wrap items-center text-gray-400 text-sm mt-1">
                         <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-orange-500">
@@ -46,7 +49,7 @@
                 </div>
                 @if (count($movie['videos']['results'])>0)
                 <div class="mt-12">
-                    <a href="https://youtube.com/watch?v={{ $movie['videos']['results'][0]['key'] }}" class=" inline-flex items-center bg-orange-500 text-gray-900 rounded font-semibold px-4 py-3 hover:bg-orange-600 transition ease-in-out duration-150">
+                    <a href="https://youtube.com/watch?v={{ $movie['videos']['results'][0]['key'] }}" target="_blank" class=" inline-flex items-center bg-orange-500 text-gray-900 rounded font-semibold px-4 py-3 hover:bg-orange-600 transition ease-in-out duration-150">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15.91 11.672a.375.375 0 0 1 0 .656l-5.603 3.113a.375.375 0 0 1-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112Z" />
@@ -71,11 +74,16 @@
                 @forelse ($movie['credits']['cast'] as $cast)
                 @if($loop->index<5)
                 <div class="mt-6">
-                    <a href="#">
+                    <a href="{{ route('actors.show', $cast['id']) }}">
+                        
+                        @if ($cast['profile_path'])
                         <img src="{{ 'https://image.tmdb.org/t/p/w500'.$cast['profile_path'] }}" alt="a" class="hover:opacity-75 transition easy-in-out duration-150">
+                            @else
+                                <img src="https://via.placeholder.com/204x307" alt="poster" class="">
+                            @endif
                     </a>
                     <div class="mt-2">
-                        <a href="#" class="text-lg mt-2 hover:text-gray-300">{{ $cast['name'] }}</a>
+                        <a href="{{ route('actors.show', $cast['id']) }}" class="text-lg mt-2 hover:text-gray-300">{{ $cast['name'] }}</a>
                         
                         <div class="text-gray-400 text-sm">
                             {{ $cast['character'] }}

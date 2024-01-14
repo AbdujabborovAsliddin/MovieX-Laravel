@@ -12,9 +12,10 @@ class MoviesController extends Controller
      */
     public function index()
     {
+        $page = rand(2,20);
         $popularMovies=Http::withToken(config('services.tmdb.token'))
         ->withOptions(['verify' => false])
-        ->get('https://api.themoviedb.org/3/movie/popular')
+        ->get('https://api.themoviedb.org/3/movie/popular?page='.$page)
         ->json()['results'];
         
         $nowPlayinMovies=Http::withToken(config('services.tmdb.token'))
