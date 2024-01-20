@@ -5,12 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     @vite(['resources/css/app.css','resources/js/app.js'])
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <title>movieX</title>
     @livewireStyles
     <link rel="stylesheet" href="/css/main.css">
 </head>
 <body class="bg-gray-900 text-white font-sans font-semibold">
     <nav class="fixed w-full z-20 top-0 start-0 bg-gray-900 border-b">
+        
         <div class="container mx-auto flex flex-col md:flex-row items-center justify-between px-16 py-6">
             <ul class="flex flex-col md:flex-row items-center">
                 <li>
@@ -26,14 +28,6 @@
             </ul>
             <div class="flex flex-col md:flex-row items-center">
                 <livewire:search-dropdown>
-                <div class="md:ml-4 mt-3 md:mt-0">
-                    <a href="#" class="rounded-full px-1 py-1 flex justify-center mx-auto items-center bg-orange-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-gray-900 ml-0.5">
-                            <path d="M5.25 6.375a4.125 4.125 0 1 1 8.25 0 4.125 4.125 0 0 1-8.25 0ZM2.25 19.125a7.125 7.125 0 0 1 14.25 0v.003l-.001.119a.75.75 0 0 1-.363.63 13.067 13.067 0 0 1-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 0 1-.364-.63l-.001-.122ZM18.75 7.5a.75.75 0 0 0-1.5 0v2.25H15a.75.75 0 0 0 0 1.5h2.25v2.25a.75.75 0 0 0 1.5 0v-2.25H21a.75.75 0 0 0 0-1.5h-2.25V7.5Z" />
-                          </svg>
-                          
-                    </a>
-                </div>
             </div>
         </div>
     </nav>

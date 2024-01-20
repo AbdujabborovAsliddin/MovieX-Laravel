@@ -12,6 +12,7 @@ class MoviesController extends Controller
      */
     public function index()
     {
+        
         $page = rand(2,20);
         $popularMovies=Http::withToken(config('services.tmdb.token'))
         ->withOptions(['verify' => false])
@@ -31,10 +32,13 @@ class MoviesController extends Controller
         $genres=collect($genresArray)->mapWithKeys(function ($genre){
             return [$genre['id']=>$genre['name']];
         });
+
+        
         return view('index',[
             'popularMovies'=>$popularMovies,
             'nowPlayingMovies'=>$nowPlayinMovies,
-            'genres'=>$genres
+            'genres'=>$genres,
+            
         ]);
     }
 
@@ -88,5 +92,11 @@ class MoviesController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+    public function send(Request $request){
+        $name = $request->input('name');
+        $avatar = $request->input('avatar');
+        
+        return view('index', ['name' => $name, 'avatar' => $avatar]);
     }
 }
