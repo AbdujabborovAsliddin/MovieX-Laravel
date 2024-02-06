@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use App\Http\Controllers\UserHistoryController;
+use App\Models\UserHistory;
 
 class MoviesController extends Controller
 {
@@ -61,8 +63,14 @@ class MoviesController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $id, UserHistoryController $userHistoryController)
     {
+
+        $history=UserHistory::create([
+            'user_id'=>auth()->user()->id,
+            'url'=>$id
+        ]);
+        $userHistoryController->index($history);
         $movie=Http::withToken(config('services.tmdb.token'))
         ->withOptions(['verify' => false])
         ->get('https://api.themoviedb.org/3/movie/'.$id.'?append_to_response=credits,videos,images')

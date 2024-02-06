@@ -1,0 +1,1 @@
+<div>your code: {{ $verificationCode }}</div>

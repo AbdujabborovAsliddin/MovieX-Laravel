@@ -3,46 +3,65 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Mail\AccountVerify;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
 
 class RegisterController extends Controller
 {
-    public function index(){
+    public function index()
+    {
+        if (Auth::check()) {
+            return redirect(route('movies.index'));
+        }
         return view('register');
     }
 
-    public function store(Request $request){
-        $validateData = $request->validate([
-            'username'=>'required',
+    public function store(Request $request)
+    {
+        
+        $validatedData = $request->validate([
+            'username' => 'required',
             'email' => 'required|unique:users,email',
             'password' => 'required|min:8',
-            'avatar'=>'required',
+            'avatar' => 'required',
         ]);
 
+        $user = User::create($validatedData);
 
-        // $existingUser = User::where('email', $request->input('email'))->first();
-
-
-        // if ($existingUser) {
-        //     // Handle case where user with the same email already exists
-        //     return redirect(route('register'))->withErrors([
-        //         'formError' => 'User with this email already exists.'
-        //     ]);
-        // }
-        $user = User::create($validateData);
-       
-        // if ($user) {
-        //     Auth::login($user);
-        //     return redirect(route('user.private'));
-        // }
-         return route('register.verify');
-    
+        if ($user) {
+            Auth::login($user);
+            // Send verification email
+            $verificationCode = rand(1000, 9999);
+            Mail::to($user->email)->send(new AccountVerify($verificationCode));
+            Session::put('verificationCode', $verificationCode);
+            
+            return redirect()->route('register.check');
+        }
+        
+        return redirect()->route('register.index')->withErrors([
+            'formError' => 'Error creating user.'
+        ]);
     }
-    public function check(){
+
+    public function check()
+    {
         return view('verify');
     }
 
-    public function verify(Request $request){
-        dd($request);
+    public function verify(Request $request)
+    {
+        $storedVerificationCode = Session::get('verificationCode');
+        $userVerificationCode = $request->input('password');
+
+        if ($storedVerificationCode == $userVerificationCode) {
+            return redirect()->route('login', ['verified' => true])->with('success', 'Successfully Verified!');
+        } else {
+            return redirect()->route('register.check')->withErrors([
+                'formError' => 'Incorrect Password!'
+            ]);
+        }
     }
 }
