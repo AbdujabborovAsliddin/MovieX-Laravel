@@ -18,6 +18,8 @@ class LoginController extends Controller
         if(Auth::attempt($formFields)){
             return redirect()->intended(route('movies.index'));
         }
-        return redirect(route('login'));
+        return redirect(route('login'))->withErrors([
+            'error'=>'User not found!'
+        ]);
     }
 }

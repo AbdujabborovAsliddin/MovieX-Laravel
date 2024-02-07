@@ -6,6 +6,16 @@
 <h1 class="text-center mb-5 text-3xl">Login</h1>   
 <form class="max-w-sm mx-auto w-96" action="{{ route('login.show') }}" method="POST">
     @csrf
+    @if(session('success'))
+        <li class="list-none text-green-700 text-end">{{ session('success') }}</li>
+    @endif
+    @if ($errors->any())
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li class="list-none text-red-900 text-end">{{ $error }}</li>
+                @endforeach
+            </ul> 
+            @endif
     <div class="mb-5">
       <label name="email" for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
       <input name="email" type="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@gmail.com" required>

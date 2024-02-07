@@ -20,7 +20,7 @@ Route::get('/actors/{actor}',[MovieActors::class,'show'])->middleware('auth')->n
 Route::get('/register',[RegisterController::class,'index'])->name('register');
 Route::post('/register',[RegisterController::class,'store'])->name('register.store');
 Route::get('/register/verify',[RegisterController::class,'check'])->name('register.check');
-Route::get('/register/verify',[RegisterController::class,'verify'])->name('register.verify');
+Route::post('/register/verify',[RegisterController::class,'verify'])->name('register.verify');
 Route::get('/login',[LoginController::class,'index'])->name('login');
 Route::post('/login',[LoginController::class,'show'])->name('login.show');
 Route::post('/logout', function () {
